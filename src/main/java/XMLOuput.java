@@ -1,0 +1,58 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+public class XMLOuput {
+    private final File file;
+
+    public XMLOuput(File file) {
+        this.file = file;
+    }
+
+    private void writeFileHeader(PrintWriter fd) {
+        fd.format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
+        fd.format("<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\" creator=\"Recon Instruments MOD / Flight HUD\" version=\"1.1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd\">\n");
+    };
+
+    private void writeTrackHeader(PrintWriter fd, Track t) {
+        fd.format("  <trk>\n");
+        fd.format("    <name>Track %d</name>\n", t.number());
+        fd.format("    <desc>%04d-%02d-%02d</desc>\n", t.year(), t.month(), t.day());
+        fd.format("    <trkseg>\n");
+    };
+
+    private void writePoint(PrintWriter fd, Track t, TrackPoint pt)
+    {
+        fd.format("      <trkpt lat=\"%1.6f\" lon=\"%1.6f\">\n", pt.lat(), pt.lon());
+        fd.format("        <ele>%d</ele>\n", pt.alt());
+        fd.format("        <name>%1.1f km/h</name>\n", pt.speed());
+        fd.format("        <time>%04d-%02d-%02dT%02d:%02d:%02dZ</time>\n", t.year(), t.month(), t.day(), pt.hour(), pt.min(), pt.sec());
+        fd.format("      </trkpt>\n");
+    }
+
+    private void writeTrackFooter(PrintWriter fd) {
+        fd.format("    </trkseg>\n");
+        fd.format("  </trk>\n");
+    };
+
+    private void writeFileFooter(PrintWriter fd) {
+        fd.format("</gpx>\n");
+    };
+
+    public void saveTracks(ArrayList<Track> tracks) throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(file));
+        writeFileHeader(writer);
+        for (Track t : tracks) {
+            writeTrackHeader(writer, t);
+            for (TrackPoint pt : t.items()) {
+                writePoint(writer, t, pt);
+            }
+            writeTrackFooter(writer);
+        }
+        writeFileFooter(writer);
+        writer.close();
+    }
+
+}
