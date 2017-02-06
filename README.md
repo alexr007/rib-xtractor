@@ -1,7 +1,10 @@
 # ribXtractor
 Recon Snow2 HUD
 
-RIB file extractor converter
+RIB file converter
+
+extracts GPS data from RIB file and make *.GPX file,
+you can easy import by GoogleEarth or other GPX analysis tool.  
 
 converts *.RIB to *.GPX
 
