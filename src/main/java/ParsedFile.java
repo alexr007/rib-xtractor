@@ -11,8 +11,8 @@ public class ParsedFile {
         this.file = file;
     }
 
-    public ArrayList<Track> converted() throws Exception {
-        ArrayList<Track> tracks = new ArrayList();
+    public ArrayList<Track> tracks() throws Exception {
+        ArrayList<Track> tracks = new ArrayList<Track>();
         FileInputStream input = new FileInputStream(file);
         byte[] ribHeader = new byte[ribHeaderSize];
         byte[] ribEntry = new byte[ribEntrySize];

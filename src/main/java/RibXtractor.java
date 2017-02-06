@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Locale;
 
 public class RibXtractor
@@ -13,12 +15,16 @@ public class RibXtractor
         for (String fileName : args) {
             System.out.println(MESSAGE_READING + fileName);
             new XMLOuput(
-                new File(fileName + ".gpx")
-            )
-            .saveTracks(
                 new ParsedFile(
                     new File(fileName)
-                ).converted()
+                )
+            )
+            .save(
+                new PrintWriter(
+                    new FileWriter(
+                        new File(fileName + ".gpx")
+                    )
+                )
             );
         }
         System.out.println(MESSAGE_DONE);
