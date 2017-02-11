@@ -14,18 +14,10 @@ public class RibXtractor
 		System.out.println(MESSAGE_MAIN);
         for (String fileName : args) {
             System.out.println(MESSAGE_READING + fileName);
-            new XMLOuput(
-                new ParsedFile(
-                    new File(fileName)
-                )
-            )
-            .save(
-                new PrintWriter(
-                    new FileWriter(
-                        new File(fileName + ".gpx")
-                    )
-                )
-            );
+            new EachFile(
+                new File(fileName),
+                new File(fileName + ".gpx")
+            ).convert();
         }
         System.out.println(MESSAGE_DONE);
 	}
